@@ -76,8 +76,21 @@ input                  mbus_ack0_o;  // Main bus0 acknowledge
 
 default clocking c0 @(posedge clk); endclocking
 
-cover_f1: cover property (mbus_cmd3_i == 3'd2);
+//cover_f1: cover property (mbus_cmd3_i == 3'd2);
+cover_figure4: cover property((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd1 ) ##1 ((cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_WR_SNOOP))##1 ((cbus_ack1_i == 1) && (cbus_ack2_i == 1)) ##1 (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR)##1((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD) && (cbus_addr_o==$past(mbus_addr0_i,4))));
 
+
+//cover_figure4: cover property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD) ##1 ((cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_WR_SNOOP))
+ //                             ##1 ((cbus_ack1_i == 1) && (cbus_ack2_i == 1)) ##1 (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR) ##1 (mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD));
+assume_m3 : assume property (mbus_cmd3_i == 0);
+
+assert_no_write_Ms : assert property(!((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR) && (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR)));
+
+assume_no_write_Ms : assume property((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR)|-> (mbus_cmd1_i != mbus_cmd0_i));
+
+
+
+//assume_no_write_Ms : assume property((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR) && (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR));
 endmodule
 
 
