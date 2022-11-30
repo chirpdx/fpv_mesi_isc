@@ -99,9 +99,11 @@ cover_some_internal : cover property(mesi_isc.mesi_isc_broad.fifo_status_full_o)
 
 //cover_f1: cover property (mbus_cmd3_i == 3'd2);
 
+cover_figure5: cover property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd5 ) ##1 ((cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_WR_SNOOP))##1 (cbus_ack2_i == 1) ##1 (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR) ##1 (cbus_ack1_i == 1) ##1 (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR)##1((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD) && (cbus_addr_o==$past(mbus_addr0_i,6))));
 
+//cover_figure6: cover property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd5 ) ##1 ((cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_WR_SNOOP))##1 ((cbus_ack1_i == 1) && (cbus_ack2_i == 1)) ##1(cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR)##1 (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) &&  (mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD) ##1 (cbus_ack2_i == 1)##1((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR) && (cbus_addr_o==$past(mbus_addr0_i,6))));
 
-
+//cover_ack_2cycle : cover property (mbus_ack0_o [*2]);
 
 ////////////////////////////////////////////////////////////////
 ///// ASSERT Properties
@@ -118,8 +120,11 @@ assert_cbus_valid_cmd2   : assert property (cbus_cmd2_o inside {[0:4]});
 
 //assert_broad_then_snoop: assert property((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd1) |-> ##1 (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP));
 
-
-
+assert_ack_1cycle : assert property (mbus_ack0_o |=> !mbus_ack0_o);
+assert_ack_after_broad : assert property (((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack0_o [->1]);
+assert_breq_type_m0_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[1:0] != 2'd3);
+assert_breq_type_m1_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[3:2] != 2'd3);
+assert_breq_type_m2_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[5:4] != 2'd3);
 
 
 
