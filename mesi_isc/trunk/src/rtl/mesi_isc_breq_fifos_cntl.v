@@ -298,7 +298,7 @@ always @(posedge clk or posedge rst)
    breq_type_array_o[4*BROAD_TYPE_WIDTH-1:0] <= 0;
  else begin 
        //                \ /                      \ /
-       breq_type_array_o[(3+1)*BROAD_TYPE_WIDTH-1: 3*BROAD_TYPE_WIDTH] =
+       breq_type_array_o[(3+1)*BROAD_TYPE_WIDTH-1: 3*BROAD_TYPE_WIDTH] <=
         //              \ /
         mbus_cmd_array_i_3[MBUS_CMD_WIDTH-1:0] == `MESI_ISC_MBUS_CMD_WR_BROAD ?
                                                      `MESI_ISC_BREQ_TYPE_WR:
@@ -307,7 +307,7 @@ always @(posedge clk or posedge rst)
                                                      `MESI_ISC_BREQ_TYPE_RD:
                                                      `MESI_ISC_BREQ_TYPE_NOP;
        //                \ /                      \ /
-       breq_type_array_o[(2+1)*BROAD_TYPE_WIDTH-1: 2*BROAD_TYPE_WIDTH] =
+       breq_type_array_o[(2+1)*BROAD_TYPE_WIDTH-1: 2*BROAD_TYPE_WIDTH] <=
         //              \ /
         mbus_cmd_array_i_2[MBUS_CMD_WIDTH-1:0] == `MESI_ISC_MBUS_CMD_WR_BROAD ?
                                                      `MESI_ISC_BREQ_TYPE_WR:
@@ -316,7 +316,7 @@ always @(posedge clk or posedge rst)
                                                      `MESI_ISC_BREQ_TYPE_RD:
                                                      `MESI_ISC_BREQ_TYPE_NOP;
        //                \ /                      \ /
-       breq_type_array_o[(1+1)*BROAD_TYPE_WIDTH-1: 1*BROAD_TYPE_WIDTH] =
+       breq_type_array_o[(1+1)*BROAD_TYPE_WIDTH-1: 1*BROAD_TYPE_WIDTH] <=
         //              \ /
         mbus_cmd_array_i_1[MBUS_CMD_WIDTH-1:0] == `MESI_ISC_MBUS_CMD_WR_BROAD ?
                                                      `MESI_ISC_BREQ_TYPE_WR:
@@ -325,7 +325,7 @@ always @(posedge clk or posedge rst)
                                                      `MESI_ISC_BREQ_TYPE_RD:
                                                      `MESI_ISC_BREQ_TYPE_NOP;
        //                \ /                      \ /
-       breq_type_array_o[(0+1)*BROAD_TYPE_WIDTH-1: 0*BROAD_TYPE_WIDTH] =
+       breq_type_array_o[(0+1)*BROAD_TYPE_WIDTH-1: 0*BROAD_TYPE_WIDTH] <=
         //              \ /
         mbus_cmd_array_i_0[MBUS_CMD_WIDTH-1:0] == `MESI_ISC_MBUS_CMD_WR_BROAD ?
                                                      `MESI_ISC_BREQ_TYPE_WR:
