@@ -134,8 +134,11 @@ assert_breq_type_m2_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_i
 
 assert_fifo_oh_onehot : assert property ($onehot0(mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.fifo_select_oh));
 //assert_cbus_array_notonehot : assert property ($onehot0(mesi_isc.mesi_isc_broad.mesi_isc_broad_cntl.cbus_active_broad_array));
-assert_broad_then_snoop_all: assert property((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd1 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR && mbus_addr0_i == 32'd1)[->1]);
+assert_wrbroad_ackall_wren: assert property((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd1 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR && mbus_addr0_i == 32'd1)[->1]);
 
+//assert_no_wrsnoop_wr_samecycle_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR && cbus_cmd0_o == `MESI_ISC_CBUS_CMD_WR_SNOOP)|->(mbus_addr0_i != cbus_addr_o));
+
+assert_broad2snoop_1cycle: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd555) |=> (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_addr_o==32'd555)[->1]);
 
 endmodule
 
