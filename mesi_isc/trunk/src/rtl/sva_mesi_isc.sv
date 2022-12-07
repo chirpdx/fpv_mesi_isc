@@ -181,6 +181,30 @@ assert_fifo_0_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_0.
 assert_fifo_1_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_1.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth === 0);
 assert_fifo_2_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_2.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth === 0);
 
+assert_cbus_active_en_access_array_onehot0 : assert property ($onehot0(mesi_isc.mesi_isc_broad.mesi_isc_broad_cntl.cbus_active_en_access_array));
+
+//safety properties
+safety_fifo_depth_inc_dec_m0: assert property (!(mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth_increase && mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth_decrease));
+
+safety_fifo_depth_inc_dec_m1: assert property (!(mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth_increase && mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth_decrease));
+
+safety_fifo_depth_inc_dec_m2: assert property (!(mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_increase && mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_decrease));
+
+
+
+
+
+//Error Injection
+/*initial begin
+force  mesi_isc.mesi_isc_breq_fifos.fifo_0.status_empty_o = 1;
+force  mesi_isc.mesi_isc_breq_fifos.fifo_0.full_empty_o = 1;
+force  mesi_isc.mesi_isc_breq_fifos.fifo_1.status_empty_o = 1;
+force  mesi_isc.mesi_isc_breq_fifos.fifo_1.full_empty_o = 1;
+force  mesi_isc.mesi_isc_breq_fifos.fifo_2.status_empty_o = 1;
+force  mesi_isc.mesi_isc_breq_fifos.fifo_2.full_empty_o = 1;
+end*/
+
+
 endmodule
 
 
