@@ -177,6 +177,10 @@ assert_wrbroad_then_wrsnoop_m1: assert property ((mbus_cmd1_i == `MESI_ISC_MBUS_
 
 assert_wrbroad_then_wrsnoop_m2: assert property ((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr2_i == 32'd2047) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_addr_o==32'd2047)[->1]);
 
+assert_fifo_0_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_0.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth === 0);
+assert_fifo_1_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_1.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth === 0);
+assert_fifo_2_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_2.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth === 0);
+
 endmodule
 
 
