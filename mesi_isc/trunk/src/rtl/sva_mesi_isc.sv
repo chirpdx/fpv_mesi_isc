@@ -83,7 +83,9 @@ assume_m3             : assume property (mbus_cmd3_i == 0);
 assume_mbus_valid_cmd0: assume property (mbus_cmd0_i inside {[0:4]});
 assume_mbus_valid_cmd1: assume property (mbus_cmd1_i inside {[0:4]});
 assume_mbus_valid_cmd2: assume property (mbus_cmd2_i inside {[0:4]});
-assume_no_write_Ms    : assume property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR)|-> (mbus_cmd1_i != mbus_cmd0_i));
+assume_no_write_m0_1  : assume property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR)|-> (mbus_cmd1_i != mbus_cmd0_i));
+assume_no_write_m1_2  : assume property ((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR)|-> (mbus_cmd1_i != mbus_cmd2_i));
+assume_no_write_m2_0  : assume property ((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR)|-> (mbus_cmd2_i != mbus_cmd0_i));
 
 
 
@@ -131,7 +133,9 @@ cover_broad_fifo_full : cover property (mesi_isc.mesi_isc_broad.fifo_status_full
 ////////////////////////////////////////////////////////////////
 ///// ASSERT Properties
 ///////////////////////////////////////////////////////////////
-assert_no_write_Ms       : assert property (!((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR) && (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR)));
+assert_no_write_m0_1     : assert property (!((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR) && (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR)));
+assert_no_write_m1_2     : assert property (!((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR) && (mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR)));
+assert_no_write_m2_0     : assert property (!((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR) && (mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR)));
 
 assert_fifo_0_empty_full : assert property (not(mesi_isc.mesi_isc_breq_fifos.fifo_0.status_empty_o && mesi_isc.mesi_isc_breq_fifos.fifo_0.status_full_o));
 assert_fifo_1_empty_full : assert property (not(mesi_isc.mesi_isc_breq_fifos.fifo_1.status_empty_o && mesi_isc.mesi_isc_breq_fifos.fifo_1.status_full_o));
@@ -141,7 +145,9 @@ assert_cbus_valid_cmd0   : assert property (cbus_cmd0_o inside {[0:4]});
 assert_cbus_valid_cmd1   : assert property (cbus_cmd1_o inside {[0:4]});
 assert_cbus_valid_cmd2   : assert property (cbus_cmd2_o inside {[0:4]});
 
-assert_ack_1cycle        : assert property (mbus_ack0_o |=> !mbus_ack0_o);
+assert_ack_1cycle_m0     : assert property (mbus_ack0_o |=> !mbus_ack0_o);
+assert_ack_1cycle_m1     : assert property (mbus_ack1_o |=> !mbus_ack1_o);
+assert_ack_1cycle_m2     : assert property (mbus_ack2_o |=> !mbus_ack2_o);
 
 assert_breq_type_m0_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[1:0] != 2'd3);
 assert_breq_type_m1_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[3:2] != 2'd3);
@@ -149,11 +155,11 @@ assert_breq_type_m2_valid : assert property (mesi_isc.mesi_isc_breq_fifos.mesi_i
 
 assert_fifo_oh_onehot     : assert property ($onehot0(mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.fifo_select_oh));
 
-assert_ack_after_broad_m0    : assert property (((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack0_o [->1]);
+assert_ack_after_broad_m0  : assert property (((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack0_o [->1]);
 
-assert_ack_after_broad_m1    : assert property (((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack1_o [->1]);
+assert_ack_after_broad_m1  : assert property (((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd1_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack1_o [->1]);
 
-assert_ack_after_broad_m2    : assert property (((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd2_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack2_o [->1]);
+assert_ack_after_broad_m2  : assert property (((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR_BROAD) || (mbus_cmd2_i == `MESI_ISC_MBUS_CMD_RD_BROAD) ) |=> mbus_ack2_o [->1]);
 
 assert_wrbroad_ackall_wren_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd1 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR && mbus_addr0_i == 32'd1)[->1]);
 
