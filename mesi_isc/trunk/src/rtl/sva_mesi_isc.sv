@@ -213,6 +213,8 @@ safety_fifo_depth_inc_dec_m1: assert property (!(mesi_isc.mesi_isc_breq_fifos.fi
 
 safety_fifo_depth_inc_dec_m2: assert property (!(mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_increase && mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_decrease));
 
+//liveness properties attempted
+//liveness_mbus_wr_cbus_snoop : assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD) |-> s_eventually((cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) ));
 
 endmodule
 
