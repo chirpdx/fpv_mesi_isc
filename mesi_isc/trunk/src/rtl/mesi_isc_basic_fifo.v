@@ -159,8 +159,8 @@ assign ptr_rd_plus_1 = ptr_rd + 1;
 
 // Status
 //================================
-
-`ifndef ERRORINJ
+// Error injected for ECE560 FPV purpose
+`ifndef ERRINJ
 assign  status_empty_o        = status_empty;
 assign  status_full_o         = status_full;
 `else

@@ -1,3 +1,17 @@
+//////////////////////////////////////////////////////////////////////
+////                                                              ////
+////  MESI_ISC FPV                                                ////
+////  Course : ECE 560 Assertion Based Verification               ////
+////  Author(s):                                                  ////
+////      - Atharva Dole        athdole@pdx.edu                   ////
+////      - Chirag Chaudhari    chir@pdx.edu                      ////
+////                                                              ////
+////  Description                                                 ////
+////  sva_mesi_isc                                                ////
+////  -------------------                                         ////
+////  Contains the all the assume, assert and cover properties    ////
+////  for FPV of MESI_ISC                                         ////
+//////////////////////////////////////////////////////////////////////
 `include "mesi_isc_define.v"
 
 module controller_checker_sva(// Inputs
@@ -199,34 +213,6 @@ safety_fifo_depth_inc_dec_m1: assert property (!(mesi_isc.mesi_isc_breq_fifos.fi
 
 safety_fifo_depth_inc_dec_m2: assert property (!(mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_increase && mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_decrease));
 
-
-
-
-
-//Error Injection
-/*
-assign mesi_isc.mesi_isc_breq_fifos.fifo_0.status_empty_o = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_0.full_empty_o = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_1.status_empty_o = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_1.full_empty_o = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_2.status_empty_o = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_2.full_empty_o = 1;
-/*assign cbus_cmd0_o = 5;
-assign cbus_cmd1_o = 6;
-assign cbus_cmd2_o = 7;*/
-/*assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[1:0] = 2'd3;
-assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[3:2] = 2'd3; 
-assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[5:4] = 2'd3;
-assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.fifo_select_oh = 4'b1111;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth = 1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth_increase = 1'b1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth_decrease = 1'b1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth_increase = 1'b1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth_decrease = 1'b1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_increase = 1'b1;
-assign mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_decrease = 1'b1;*/
 
 endmodule
 

@@ -1,9 +1,23 @@
 fpv: clean compile verify debug
+fpv_errinj: clean compile_with_bugs verify debug
+
+compile_with_bugs:
+	vlib work
+	vmap work work
+	vlog +define+ERRINJ ./../src/rtl/mesi_isc_define.v \
+	 ./../src/rtl/mesi_isc.v \
+	 ./../src/rtl/mesi_isc_basic_fifo.v \
+	 ./../src/rtl/mesi_isc_breq_fifos.v \
+	 ./../src/rtl/mesi_isc_breq_fifos_cntl.v \
+	 ./../src/rtl/mesi_isc_broad.v \
+	 ./../src/rtl/mesi_isc_broad_cntl.v \
+	 -sv -mfcu -cuname my_bind_sva \
+		./../src/rtl/sva_bind.sv ./../src/rtl/sva_mesi_isc.sv
 
 compile:
 	vlib work
 	vmap work work
-	vlog +define+ERRINJ ./../src/rtl/mesi_isc_define.v \
+	vlog ./../src/rtl/mesi_isc_define.v \
 	 ./../src/rtl/mesi_isc.v \
 	 ./../src/rtl/mesi_isc_basic_fifo.v \
 	 ./../src/rtl/mesi_isc_breq_fifos.v \
