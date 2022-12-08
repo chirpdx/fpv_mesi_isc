@@ -3,14 +3,14 @@ fpv: clean compile verify debug
 compile:
 	vlib work
 	vmap work work
-	vlog ./../src/rtl/mesi_isc_define.v
-	vlog ./../src/rtl/mesi_isc.v
-	vlog ./../src/rtl/mesi_isc_basic_fifo.v
-	vlog ./../src/rtl/mesi_isc_breq_fifos.v
-	vlog ./../src/rtl/mesi_isc_breq_fifos_cntl.v
-	vlog ./../src/rtl/mesi_isc_broad.v
-	vlog ./../src/rtl/mesi_isc_broad_cntl.v
-	vlog -sv -mfcu -cuname my_bind_sva \
+	vlog +define+ERRINJ ./../src/rtl/mesi_isc_define.v \
+	 ./../src/rtl/mesi_isc.v \
+	 ./../src/rtl/mesi_isc_basic_fifo.v \
+	 ./../src/rtl/mesi_isc_breq_fifos.v \
+	 ./../src/rtl/mesi_isc_breq_fifos_cntl.v \
+	 ./../src/rtl/mesi_isc_broad.v \
+	 ./../src/rtl/mesi_isc_broad_cntl.v \
+	 -sv -mfcu -cuname my_bind_sva \
 		./../src/rtl/sva_bind.sv ./../src/rtl/sva_mesi_isc.sv
 
 

@@ -163,19 +163,28 @@ assert_ack_after_broad_m2  : assert property (((mbus_cmd2_i == `MESI_ISC_MBUS_CM
 
 assert_wrbroad_ackall_wren_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd1 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_WR && mbus_addr0_i == 32'd1)[->1]);
 
-
 assert_wrbroad_ackall_wren_m1: assert property ((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr1_i == 32'ha5a5 && mbus_cmd0_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack0_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_EN_WR && mbus_addr1_i == 32'ha5a5)[->1]);
-
 
 assert_wrbroad_ackall_wren_m2: assert property ((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr2_i == 32'd255 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd0_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack0_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_EN_WR && mbus_addr2_i == 32'd255)[->1]);
 
-assert_wrbroad_then_wrsnoop_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd555) |=> (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_addr_o==32'd555)[->1]);
+assert_rdbroad_ackall_rden_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD_BROAD && mbus_addr0_i == 32'd1 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_EN_RD && mbus_addr0_i == 32'd1)[->1]);
 
+assert_wrbroad_ackall_rden_m1: assert property ((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_RD_BROAD && mbus_addr1_i == 32'ha5a5 && mbus_cmd0_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd2_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack0_i[->1] and cbus_ack2_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_EN_RD && mbus_addr1_i == 32'ha5a5)[->1]);
+
+assert_wrbroad_ackall_rden_m2: assert property ((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_RD_BROAD && mbus_addr2_i == 32'd255 && mbus_cmd1_i == `MESI_ISC_MBUS_CMD_NOP && mbus_cmd0_i == `MESI_ISC_MBUS_CMD_NOP) ##1 ((cbus_ack1_i[->1] and cbus_ack0_i[->1] and cbus_ack3_i[->1])) |=> (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_EN_RD && mbus_addr2_i == 32'd255)[->1]);
+
+assert_wrbroad_then_wrsnoop_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr0_i == 32'd555) |=> (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_addr_o==32'd555)[->1]);
 
 assert_wrbroad_then_wrsnoop_m1: assert property ((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr1_i == 32'd1023) |=> (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_addr_o==32'd1023)[->1]);
 
-
 assert_wrbroad_then_wrsnoop_m2: assert property ((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_WR_BROAD && mbus_addr2_i == 32'd2047) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_WR_SNOOP) && (cbus_addr_o==32'd2047)[->1]);
+
+assert_wrbroad_then_rdsnoop_m0: assert property ((mbus_cmd0_i == `MESI_ISC_MBUS_CMD_RD_BROAD && mbus_addr0_i == 32'd555) |=> (cbus_cmd1_o == `MESI_ISC_CBUS_CMD_RD_SNOOP) && (cbus_addr_o==32'd555)[->1]);
+
+assert_wrbroad_then_rdsnoop_m1: assert property ((mbus_cmd1_i == `MESI_ISC_MBUS_CMD_RD_BROAD && mbus_addr1_i == 32'd1023) |=> (cbus_cmd2_o == `MESI_ISC_CBUS_CMD_RD_SNOOP) && (cbus_addr_o==32'd1023)[->1]);
+
+assert_wrbroad_then_rdsnoop_m2: assert property ((mbus_cmd2_i == `MESI_ISC_MBUS_CMD_RD_BROAD && mbus_addr2_i == 32'd2047) |=> (cbus_cmd0_o == `MESI_ISC_CBUS_CMD_RD_SNOOP) && (cbus_addr_o==32'd2047)[->1]);
+
 
 assert_fifo_0_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_0.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth === 0);
 assert_fifo_1_full_depth : assert property (mesi_isc.mesi_isc_breq_fifos.fifo_1.status_full |-> mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth === 0);
@@ -195,15 +204,29 @@ safety_fifo_depth_inc_dec_m2: assert property (!(mesi_isc.mesi_isc_breq_fifos.fi
 
 
 //Error Injection
-/*initial begin
-force  mesi_isc.mesi_isc_breq_fifos.fifo_0.status_empty_o = 1;
-force  mesi_isc.mesi_isc_breq_fifos.fifo_0.full_empty_o = 1;
-force  mesi_isc.mesi_isc_breq_fifos.fifo_1.status_empty_o = 1;
-force  mesi_isc.mesi_isc_breq_fifos.fifo_1.full_empty_o = 1;
-force  mesi_isc.mesi_isc_breq_fifos.fifo_2.status_empty_o = 1;
-force  mesi_isc.mesi_isc_breq_fifos.fifo_2.full_empty_o = 1;
-end*/
-
+/*
+assign mesi_isc.mesi_isc_breq_fifos.fifo_0.status_empty_o = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_0.full_empty_o = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_1.status_empty_o = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_1.full_empty_o = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_2.status_empty_o = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_2.full_empty_o = 1;
+/*assign cbus_cmd0_o = 5;
+assign cbus_cmd1_o = 6;
+assign cbus_cmd2_o = 7;*/
+/*assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[1:0] = 2'd3;
+assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[3:2] = 2'd3; 
+assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.breq_type_array_o[5:4] = 2'd3;
+assign mesi_isc.mesi_isc_breq_fifos.mesi_isc_breq_fifos_cntl.fifo_select_oh = 4'b1111;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth = 1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth_increase = 1'b1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_0.fifo_depth_decrease = 1'b1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth_increase = 1'b1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_1.fifo_depth_decrease = 1'b1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_increase = 1'b1;
+assign mesi_isc.mesi_isc_breq_fifos.fifo_2.fifo_depth_decrease = 1'b1;*/
 
 endmodule
 

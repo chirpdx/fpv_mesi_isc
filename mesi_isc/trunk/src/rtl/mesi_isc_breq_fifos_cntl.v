@@ -273,11 +273,16 @@ always @(posedge clk or posedge rst)
                           (mbus_cmd_array_i_1 == `MESI_ISC_MBUS_CMD_WR_BROAD |
                            mbus_cmd_array_i_1 == `MESI_ISC_MBUS_CMD_RD_BROAD )&
                           fifo_status_full_array_i[1] == 0;
+    `ifndef ERRINJ
      mbus_ack_array[0] <= ~mbus_ack_array[0] &
                           (mbus_cmd_array_i_0 == `MESI_ISC_MBUS_CMD_WR_BROAD |
                            mbus_cmd_array_i_0 == `MESI_ISC_MBUS_CMD_RD_BROAD )&
                           fifo_status_full_array_i[0] == 0;
-     
+    `else
+     mbus_ack_array[0] <= 1'b0;
+    `endif	
+
+ 
   end
 
 assign mbus_cmd_array_i_3[MBUS_CMD_WIDTH-1:0] =
@@ -316,6 +321,7 @@ always @(posedge clk or posedge rst)
                                                      `MESI_ISC_BREQ_TYPE_RD:
                                                      `MESI_ISC_BREQ_TYPE_NOP;
        //                \ /                      \ /
+       `ifndef ERRINJ
        breq_type_array_o[(1+1)*BROAD_TYPE_WIDTH-1: 1*BROAD_TYPE_WIDTH] <=
         //              \ /
         mbus_cmd_array_i_1[MBUS_CMD_WIDTH-1:0] == `MESI_ISC_MBUS_CMD_WR_BROAD ?
@@ -324,6 +330,9 @@ always @(posedge clk or posedge rst)
         mbus_cmd_array_i_1[MBUS_CMD_WIDTH-1:0] == `MESI_ISC_MBUS_CMD_RD_BROAD ?
                                                      `MESI_ISC_BREQ_TYPE_RD:
                                                      `MESI_ISC_BREQ_TYPE_NOP;
+       `else
+	 breq_type_array_o[(1+1)*BROAD_TYPE_WIDTH-1: 1*BROAD_TYPE_WIDTH] <= 2'b11;
+        `endif
        //                \ /                      \ /
        breq_type_array_o[(0+1)*BROAD_TYPE_WIDTH-1: 0*BROAD_TYPE_WIDTH] <=
         //              \ /
